@@ -22,7 +22,7 @@ public class Game {
     private static final String HELP_TEXT = """
             To move a tile specify its vertical/horizontal coordinates and direction
             you want to move it to separated by comas, e.g.:
-            
+                        
             ----->
             |4	|3	|10	|14	|
             |8	|9	|2	|12	|
@@ -64,8 +64,8 @@ public class Game {
                 }
             }
 
-        } catch (Throwable e) {
-            System.out.println("Game crashed:( Reason: " + e);
+        } catch (Throwable t) {
+            System.out.println("Game crashed:( Reason: " + t);
         }
     }
 
@@ -73,11 +73,17 @@ public class Game {
         Puzzle puzzle = new Puzzle();
         System.out.println(puzzle);
         while (scanner.hasNextLine() || puzzle.isSolved()) {
-            var inputs = scanner.nextLine().split(",");
-            int y = Integer.parseInt(inputs[0].trim());
-            int x = Integer.parseInt(inputs[1].trim());
-            Direction direction = Direction.fromString(inputs[2].trim());
-            puzzle.moveTile(new Coordinate(x - 1, y - 1), direction);
+            int x= -1, y = -1;
+            try {
+                var inputs = scanner.nextLine().split(",");
+                y = Integer.parseInt(inputs[0].trim());
+                x = Integer.parseInt(inputs[1].trim());
+                Direction direction = Direction.fromString(inputs[2].trim());
+                puzzle.moveTile(new Coordinate(x - 1, y - 1), direction);
+            } catch (RuntimeException e) {
+                System.out.println("Could not process input, reason: " + e.getMessage());
+                System.out.println(HELP_TEXT);
+            }
             System.out.println(puzzle);
         }
         System.out.println(SOLVED);
