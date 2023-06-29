@@ -72,7 +72,7 @@ public class Game {
     public void startPuzzle() {
         Puzzle puzzle = new Puzzle();
         System.out.println(puzzle);
-        while (scanner.hasNextLine() || puzzle.isSolved()) {
+        while (scanner.hasNextLine() && !puzzle.isSolved()) {
             int x= -1, y = -1;
             try {
                 var inputs = scanner.nextLine().split(",");
